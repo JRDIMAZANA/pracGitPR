@@ -11,6 +11,7 @@ function imageUrl(image) {
   return `/${image}`;
 }
 
+//10% percent Service
 function OrderingSystem() {
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
