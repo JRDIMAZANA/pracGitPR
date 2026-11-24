@@ -11,7 +11,7 @@ function imageUrl(image) {
   return `/${image}`;
 }
 
-//10% percent Service
+//10% percent Service THE WORLDS
 function OrderingSystem() {
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
