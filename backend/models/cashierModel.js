@@ -44,3 +44,10 @@ export async function cartItems() {
     );
     return rows;
 }
+
+export async function clearCart() {
+        const [rows] = await pool.query(
+            "DELETE FROM cart_items"
+        );
+        return rows;
+    }
