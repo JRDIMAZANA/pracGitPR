@@ -1,71 +1,56 @@
 import * as cashierServices from "../services/cashierServices.js";
+import ValidationError from "../utils/ValidationError.js";
 
 export const fetchAllMenu = async (req, res) => {
     try {
         const menu = await cashierServices.fetchAllMenu();
         res.status(200).json(menu);
     } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch menu",
-            error: error.message
-        });
+        ValidationError(400, "Failed to fetch menu");
     }
 };
 
 export const fetchMenuItemById = async (req, res) => {
-    const { id } = req.params;
     try {
-        const menuItem = await cashierServices.fetchMenuItemById(id);
-        if (menuItem.length === 0) {
-            return res.status(404).json({ message: "Menu item not found" });
-        }
-        res.status(200).json(menuItem[0]);
+        const item = await cashierServices.fetchMenuItemById(req.params.id);
+        res.status(200).json(item);
     } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch menu item",
-            error: error.message
-        });
+        ValidationError(400, "Failed to fetch menu item");
     }
-}
+};
 
 export const fetchCart = async (req, res) => {
     try {
         const cart = await cashierServices.fetchCart();
         res.status(200).json(cart);
     } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch cart",
-            error: error.message
-        });
+        ValidationError(400, "Failed to fetch cart");
     }
 };
 
 export const addProductToCart = async (req, res) => {
-    const { id, quantity, unit_price } = req.body;
-    const cashier = { id, quantity, unit_price };
     try {
-        const result = await cashierServices.addProductToCart(cashier);
-        res.status(201).json({
-             message: "Product added to cart", result });
-    } catch (e) {
-        res.status(500).json({
-            message: "Failed to add product to cart",
-            error: e.message
-        });
+        await cashierServices.addProductToCart(req.body);
+        res.status(201).json({ message: "Product added to cart" });
+    } catch (error) {
+        ValidationError(400, "Failed to add product to cart");
     }
 };
 
 export const updateCartItem = async (req, res) => {
-    const { id, quantity } = req.body;
-    const cashier = { id, quantity };
     try {
-        const result = await cashierServices.updateCartItem(cashier);
-        res.status(200).json({
-            message: "Cart item updated", result });
-    } catch (e) {
-        res.status(500).json({
-            message: "Failed to update cart item",
-            error: e.message
-        });
+        await cashierServices.updateCartItem(req.body);
+        res.status(200).json({ message: "Cart item updated" });
+    } catch (error) {
+        ValidationError(400, "Failed to update cart item");
+    }
+};
+
+export const removeCartItem = async (req, res) => {
+    try {
+        await cashierServices.removeCartItem(req.params.id);
+        res.status(200).json({ message: "Cart item removed" });
+    } catch (error) {
+        ValidationError(400, "Failed to remove cart item");
     }
 };
