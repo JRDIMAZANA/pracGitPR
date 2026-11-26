@@ -8,5 +8,6 @@ cashierRoutes.get('/cart', cashierController.fetchCart);
 cashierRoutes.get('/:id', cashierController.fetchMenuItemById);
 cashierRoutes.post('/cart', cashierController.addProductToCart);
 cashierRoutes.put('/cart', cashierController.updateCartItem);
+cashierRoutes.delete('/cart/:id', cashierController.removeCartItem);
 
 export default cashierRoutes;
